@@ -58,7 +58,7 @@ Sends the Rovio a halt message.
 
 =head1 DEPENDENCIES
 
-WWw::Mechanize
+WWW::Mechanize
 
 =head1 TODO
 
@@ -72,7 +72,7 @@ Ivan Greene (ivantis@ivantis.net)
 
 =head1 SEE ALSO
 
-WWW::Mechanize(3pm)
+WWW::Mechanize
 
 =cut
 
@@ -80,7 +80,7 @@ use strict;
 use warnings;
 use WWW::Mechanize;
 use vars qw($VERSION);
-$VERSION = "0.7";
+$VERSION = "0.8";
 
 sub new {
   my $package = shift;
