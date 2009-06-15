@@ -80,7 +80,7 @@ use strict;
 use warnings;
 use WWW::Mechanize;
 use vars qw($VERSION);
-$VERSION = "0.8.1";
+$VERSION = "0.9";
 
 sub new {
   my $package = shift;
