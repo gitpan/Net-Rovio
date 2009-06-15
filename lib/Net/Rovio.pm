@@ -80,7 +80,7 @@ use strict;
 use warnings;
 use WWW::Mechanize;
 use vars qw($VERSION);
-$VERSION = "0.8";
+$VERSION = "0.8.1";
 
 sub new {
   my $package = shift;
@@ -98,7 +98,7 @@ sub new {
 sub send {
   my $self = shift;
   if ($self->{'opened'}) {
-    if ($_[0] && $_[1]) {
+    if ($_[0] ne "") {
       my $request = WWW::Mechanize->new();
       my $auth;
       if ($self->{'auth'}) {

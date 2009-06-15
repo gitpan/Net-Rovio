@@ -1,8 +1,9 @@
-Net-Rovio version 0.8
+Net-Rovio version 0.8.1
 ======================
 
 FIXES
 
+In 0.8.1: A second argument for send() is optional
 In 0.8: Prerequisite for WWW::Mechanize added
 
 INSTALLATION
