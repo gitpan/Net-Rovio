@@ -9,10 +9,13 @@ Net::Rovio - A Perl module for Rovio manipulation
   use Net::Rovio;
   my $rovio = Net::Rovio->new('my-rovio.ath.cx', 'admin', 'password');
   $rovio->light('on');
+  $rovio->send_photo();
   sleep 1;
   $rovio->camera_head('mid');
+  $rovio->send_photo();
   sleep 1;
   $rovio->camera_head('up');
+  $rovio->send_photo();
   sleep 1;
   $rovio->camera_head('mid');
   sleep 1;
@@ -54,11 +57,15 @@ Sends the Rovio to its charging base.
 
 Sends the Rovio a halt message.
 
+=item * $object->send_photo()
+
+Send a snapshot of the current camera image to the email address specified in the Rovio settings.
+
 =back
 
 =head1 DEPENDENCIES
 
-WWW::Mechanize
+LWP::Simple
 
 =head1 TODO
 
@@ -72,25 +79,27 @@ Ivan Greene (ivantis@ivantis.net)
 
 =head1 SEE ALSO
 
+LWP::Simple
 WWW::Mechanize
 
 =cut
 
 use strict;
 use warnings;
-use WWW::Mechanize;
+use LWP::Simple;
 use vars qw($VERSION);
-$VERSION = "0.9";
+$VERSION = "1.0";
 
 sub new {
   my $package = shift;
   my $self;
   $self->{'opened'} = 1;
   $self->{'host'} = $_[0];
-  if ($_[1] ne "" && $_[2] ne "") {
-    $self->{'auth'} = 1;
-    $self->{'username'} = $_[1];
-    $self->{'password'} = $_[2];
+  if ((($_[1]) && ($_[2])) && (ne "" && $_[2] ne "")) {
+  #  $self->{'auth'} = 1;
+  #  $self->{'username'} = $_[1];
+  #  $self->{'password'} = $_[2];
+  $self->{'host'} = $_[1].':'.$_[2].'@'.$self->{'host'};
   }
   return bless($self, $package);
 }
@@ -99,17 +108,18 @@ sub send {
   my $self = shift;
   if ($self->{'opened'}) {
     if ($_[0] ne "") {
-      my $request = WWW::Mechanize->new();
-      my $auth;
-      if ($self->{'auth'}) {
-        $request->credentials($self->{'username'}, $self->{'password'});
-      }
+      #my $request = WWW::Mechanize->new();
+      #my $auth;
+      #if ($self->{'auth'}) {
+        #$request->credentials($self->{'username'}, $self->{'password'});
+      #}
       my $file = $_[0];
       my $GET = $_[1];
-      if ($GET eq "") {
+      if ((!$GET) or ($GET eq "")) {
         $GET = " ";
       }
-      $request->get('http://'.$self->{'host'}.'/'.$file.'?'.$GET);
+      #$request->get('http://'.$self->{'host'}.'/'.$file.'?'.$GET);
+      get('http://'.$self->{'host'}.'/'.$file.'?'.$GET);
     } else {
       warn "Usage: send('file.cgi'[, 'GET data'])\n";
     }
@@ -148,6 +158,11 @@ sub light {
   } else {
     $self->send("/rev.cgi", "Cmd=nav&action=19&LIGHT=1");
   }
+}
+
+sub send_photo {
+  my $self = shift;
+  $self->send("/SendMail.cgi");
 }
 
 1;

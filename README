@@ -1,8 +1,9 @@
-Net-Rovio version 0.9
+Net-Rovio version 1.0
 ======================
 
-FIXES
+CHANGES
 
+In 1.0: Switched from WWW::Mechanize to LWP::Request for simplicity, added send_photo()
 In 0.9: A second argument for send() is optional
 In 0.8: Prerequisite for WWW::Mechanize added
 
@@ -19,7 +20,7 @@ DEPENDENCIES
 
 This module requires these other modules and libraries:
 
-  WWW::Mechanize
+  LWP::Request
 
 COPYRIGHT AND LICENCE
 
