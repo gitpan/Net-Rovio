@@ -88,14 +88,14 @@ use strict;
 use warnings;
 use LWP::Simple;
 use vars qw($VERSION);
-$VERSION = "1.0";
+$VERSION = "1.1";
 
 sub new {
   my $package = shift;
   my $self;
   $self->{'opened'} = 1;
   $self->{'host'} = $_[0];
-  if ((($_[1]) && ($_[2])) && (ne "" && $_[2] ne "")) {
+  if ((($_[1]) && ($_[2])) && (($_[1] ne "") && ($_[2] ne ""))) {
   #  $self->{'auth'} = 1;
   #  $self->{'username'} = $_[1];
   #  $self->{'password'} = $_[2];
