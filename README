@@ -1,8 +1,9 @@
-Net-Rovio version 1.1
+Net-Rovio version 1.2
 ======================
 
 CHANGES
 
+In 1.2: Added many additional functions from the Rovio API.
 In 1.1: Switched from WWW::Mechanize to LWP::Simple for simplicity, added send_photo()
 In 0.9: A second argument for send() is optional
 In 0.8: Prerequisite for WWW::Mechanize added
@@ -24,7 +25,7 @@ This module requires these other modules and libraries:
 
 COPYRIGHT AND LICENCE
 
-Copyright (C) 2009 by Ivan Greene
+Copyright (C) 2009 by Ivan Greene portions Copyright (c) 2010 by Ty Roden
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.8.8 or,
