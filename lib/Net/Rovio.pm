@@ -1228,8 +1228,11 @@ Changes the resolution of the camera. Accepts values from 0 - 3 as defined below
 =over 4
 
 =item 0 - {176, 144}
+
 =item 1 - {352, 288}
+
 =item 2 - {320, 240} (Default)
+
 =item 3 - {640, 480}
 
 =back
@@ -1258,9 +1261,13 @@ Returns the camera sensor setting:
 
 =over 4
 
+=begin text
+
 50 - 50Hz
 60 - 60Hz
 0 - Auto detect
+
+=end text
 
 =back
 
@@ -1275,6 +1282,8 @@ Gets the Dynamic DNS settings within the Rovio. Returns
 GetDDNS Returns:
 
 =over 4
+
+=begin text
 
 'User' => '',
 'Pass' => '',
@@ -1297,6 +1306,8 @@ Updating IP
 Checked
 Not Update
 
+=end text
+
 =back
 
 =head2 $rovio->gethttp()
@@ -1306,8 +1317,14 @@ Returns the http server port settings within the Rovio for both possible ports.
 GetHTTP Returns:
 
 =over 4
+
+=begin text
+
 'Port1' => '',
 'Port0' => '80'
+
+=end text
+
 =back
 
 Note that the Port0 setting should only be changed if you know what you are doing.
@@ -1320,6 +1337,9 @@ Returns the settings for IP within the Rovio.
 GetIP Returns:
 
 =over 4
+
+=begin text
+
 'CurrentDNS0' => '4.2.2.3',
 'DNS2' => '0.0.0.0',
 'IPWay' => 'manually',
@@ -1336,6 +1356,9 @@ GetIP Returns:
 'CurrentDNS2' => '0.0.0.0',
 'IP' => '192.168.1.200',
 'CurrentIPState' => 'STATIC_IP_OK'
+
+=end text
+
 =back
 
 =head2 $rovio->getlog()
@@ -1345,15 +1368,23 @@ Returns the log data from the Rovio. Currently an incomplete function, though st
 GetLog Returns:
 
 =over 4
+
+=begin text
+
 'Time' => '0000001029',
 'LogLines' => [
                '27    C0A8017D18F09FE518F00000000007'
               ]
+
+=end text
+
 =back
 
 The Time represents time since power on in seconds. LogLines are individual log events.
 
 Log Lines -
+
+=begin text
 
 byte 0, 1 - reason for recording this log, refer to table below. eg: 27 is shown that new client connect to the IP Camera.
 byte 2 ~ 5 - reserved.
@@ -1387,6 +1418,8 @@ For byte 0, 1 - Log reason
 31 Set Server IP
 32 Set Http Port
 
+=end text
+
 =head2 $rovio->getlogo()
 
 Gets the 2 possible strings of text currently overlayed on the image, and thier position.
@@ -1394,10 +1427,16 @@ Gets the 2 possible strings of text currently overlayed on the image, and thier 
 GetLogo Returns:
 
 =over 4
+
+=begin text
+
 'ShowString' => '',
 'ShowPos' => '0',
 'ShowString2' => '',
 'ShowPos2' => '0'
+
+=end text
+
 =back
 
 =head2 $rovio->getmail()
@@ -1407,6 +1446,9 @@ Gets the current email settings within the Rovio.
 GetMail Returns:
 
 =over 4
+
+=begin text
+
 'Subject' => 'Rovio Snapshot',
 'User' => '',
 'MailServer' => '',
@@ -1417,6 +1459,9 @@ GetMail Returns:
 'Receiver' => '',
 'PassWord' => '',
 'Body' => 'Check out this photo from my Rovio.'
+
+=end text
+
 =back
 
 =head2 $rovio->getmcureport()
@@ -1426,6 +1471,9 @@ Incomplete function.
 GetMCUReport Currently Returns:
 
 =over 4
+
+=begin text
+
           'rear_encoder_ticks' => '00',
           'packet_length' => 14,
           'right_encoder_ticks' => '00',
@@ -1435,6 +1483,9 @@ GetMCUReport Currently Returns:
           'picture_index' => '0',
           'rear_wheel_dir' => '0',
           'left_wheel_dir' => '1'
+
+=end text
+
 =back
 
 =head2 $rovio->getmediaformat()
@@ -1444,11 +1495,19 @@ Gets the current media format setting in the Rovio.
 GetMediaFormat Returns:
 
 =over 4
+
+=begin text
+
           'Video' => '1',
           'Audio' => '4'
+
+=end text
+
 =back
 
 The possible return values are:
+
+=begin text
 
 For Audio:
  0 - AMR
@@ -1460,6 +1519,8 @@ For Audio:
 For Video:
  1 - H263
  2 - MPEG4
+
+=end text
 
 The same values can be used with the setmediaformat() command.
 Note that some Video settings will not work with the built-in Rovio webpage
@@ -1480,6 +1541,9 @@ This returns a large amount of status data from the Rovio.
 GetReport Returns:
 
 =over 4
+
+=begin text
+
           'wifi_ss' => '200',
           'show_time' => '0',
           'theta' => '1.098',
@@ -1513,8 +1577,10 @@ responses = 0',
           'ac_freq' => '2',
           'resistance' => '0',
           'ddns_state' => '0'
-=back
 
+=end text
+
+=back
 
 =head2 $rovio->getstatus()
 
@@ -1523,6 +1589,9 @@ Returns detailed status of the Rovio.
 GetStatus Returns:
 
 =over 4
+
+=begin text
+
           'ftp_state' => '0',
           'saturation' => '000',
           'camera_state' => '01',
@@ -1557,6 +1626,9 @@ GetStatus Returns:
           'channel_value' => '00',
           'image_file_length' => '00000000',
           'sharpness' => '000'
+
+=end text
+
 =back
 
 =head2 $rovio->gettime()
@@ -1564,11 +1636,18 @@ GetStatus Returns:
 Returns time information from the Rovio.
 
 GetTime Returns:
+
 =over 4
+
+=begin text
+
           'TimeZone' => '240',
           'NtpServer' => '',
           'UseNtp' => '0',
           'Sec1970' => '99663'
+
+=end text
+
 =back
 
 =head2 $rovio->gettuningparameters()
@@ -1577,7 +1656,10 @@ Returns the tuning parameters from the Rovio.
 
 GetTuningParameters Returns:
 
-=over4
+=over 4
+
+=begin text
+
           'ManTurn' => '8',
           'ManDrive' => '7',
           'DockTimeout' => '72',
@@ -1588,6 +1670,9 @@ responses = 0',
           'Forward' => '8',
           'DriveTurn' => '6',
           'HomingTurn' => '8'
+
+=end text
+
 =back
 
 =head2 $rovio->getver()
@@ -1597,7 +1682,13 @@ Returns Version information.
 GetVer Returns:
 
 =over 4
+
+=begin text
+
  Ver: Jan 12 2010 14:41:24 $Revision: 5.3503$
+
+=end text
+
 =back
 
 =head2 $rovio->getwlan()
@@ -1607,6 +1698,9 @@ Returns Wireless LAN information from the Rovio.
 GetWlan Returns:
 
 =over 4
+
+=begin text
+
           'Wep128type' => 'Wep128HEX',
           'Wep64type' => 'Wep64HEX',
           'Channel' => '5',
@@ -1617,6 +1711,9 @@ GetWlan Returns:
           'Key' => '',
           'WepGroup' => '0',
           'WepAsc' => ''
+
+=end text
+
 =back
 
 =head2 $rovio->halt()
@@ -1628,9 +1725,16 @@ Cancel current processing within the Rovio.
 Controls the integrated light within the Rovio.
 
 Sample:
+
 =over 4
+
+=begin text
+
 $rovio->light('on');
 $rovio->light('off');
+
+=begin text
+
 =back
 
 =head2 $rovio->manualdrive(<drive value>,<speed value>)
@@ -1638,9 +1742,18 @@ $rovio->light('off');
 Allows manual control of the Rovio movement.
 
 Sample:
+
 =over 4
+
+=begin text
+
 $rovio->manualdrive("1","2");
+
+=end text
+
 =back
+
+=begin text
 
 Drive Values:
 0 (Stop)
@@ -1665,6 +1778,8 @@ Drive Values:
 
 Speed Values:
 1 (fastest) - 10 (slowest)
+
+=end text
 
 =head2 $rovio->pauseplaying()
 
@@ -1717,11 +1832,17 @@ Sets the speed and other parameters in the Rovio. See the acceptable values in g
 Sample:
 
 =over 4
+
+=begin text
+
 @params = {   "Forward" => 8,
             "DriveTurn" => 6,
            "HomingTurn" => 8
            };
 $rovio->settuningparameters(@params);
+
+=end text
+
 =back
 
 =head2 $rovio->startrecording()
@@ -1735,11 +1856,17 @@ Reports the current state of the Rovio.
 State Returns:
 
 =over 4
+
+=begin text
+
 idle
 driving home
 docking
 executing path
 recording path
+
+=end text
+
 =back
 
 =head2 $rovio->stopplaying()
