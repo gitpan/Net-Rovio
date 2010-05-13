@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use LWP::Simple;
 use vars qw($VERSION);
-$VERSION = "1.4";
+$VERSION = "1.5";
 my $answer ="";
 
 sub new {
@@ -74,6 +74,24 @@ sub camera_head
         warn "Invalid argument for camera_head()\n";
     }
     return processanswer();
+}
+
+# The lights_blue function was submitted to me by kyncl on the Robocommunity.com forum. Thanks!
+
+sub lights_blue {
+  my $self = shift;
+  if ($_[0] =~ /off/i) {
+  $self->send("/mcu", "parameters=114D4D00010053485254000100011A000000");
+  }
+  if ($_[0] =~ /on/i) {
+  $self->send("/mcu", "parameters=114D4D00010053485254000100011AFF0000");
+  }
+
+  if (($_[0] =~ /1/i) or ($_[0] =~ /0/i)) {
+  my $line = $_[0];
+  my $hex = unpack("H*", pack ("B*", $line));
+  $self->send("/mcu",'parameters=114D4D00010053485254000100011A'.$hex.'0000');
+  }
 }
 
 sub halt
@@ -1226,13 +1244,10 @@ Changes the resolution of the camera. Accepts values from 0 - 3 as defined below
 
 =over 4
 
-=item 0 - {176, 144}
-
-=item 1 - {352, 288}
-
-=item 2 - {320, 240} (Default)
-
-=item 3 - {640, 480}
+          0 - {176, 144}
+          1 - {352, 288}
+          2 - {320, 240} (Default)
+          3 - {640, 480}
 
 =back
 
@@ -1260,9 +1275,9 @@ Returns the camera sensor setting:
 
 =over 4
 
-=item 50 - 50Hz
-=item 60 - 60Hz
-=item 0 - Auto detect
+          50 - 50Hz
+          60 - 60Hz
+          0 - Auto detect
 
 =back
 
@@ -1278,26 +1293,26 @@ GetDDNS Returns:
 
 =over 4
 
-'User' => '',
-'Pass' => '',
-'Service' => '',
-'ProxyPass' => '',
-'Proxy' => '',
-'ProxyPort' => '0',
-'Info' => 'Not Update',
-'ProxyUser' => '',
-'Enable' => '0',
-'IP' => '0.0.0.0',
-'DomainName' => ''
+          'User' => '',
+          'Pass' => '',
+          'Service' => '',
+          'ProxyPass' => '',
+          'Proxy' => '',
+          'ProxyPort' => '0',
+          'Info' => 'Not Update',
+          'ProxyUser' => '',
+          'Enable' => '0',
+          'IP' => '0.0.0.0',
+          'DomainName' => ''
 
-Info above can return:
+          Info above can return:
 
-=item Updated
-=item Updating
-=item Failed
-=item Updating IP
-=item Checked
-=item Not Update
+          Updated
+          Updating
+          Failed
+          Updating IP
+          Checked
+          Not Update
 
 =back
 
@@ -1309,8 +1324,8 @@ GetHTTP Returns:
 
 =over 4
 
-'Port1' => '',
-'Port0' => '80'
+          'Port1' => '',
+          'Port0' => '80'
 
 =back
 
@@ -1325,22 +1340,22 @@ GetIP Returns:
 
 =over 4
 
-'CurrentDNS0' => '4.2.2.3',
-'DNS2' => '0.0.0.0',
-'IPWay' => 'manually',
-'CurrentNetmask' => '255.255.255.0',
-'Netmask' => '255.255.255.0',
-'DNS1' => '0.0.0.0',
-'Gateway' => '192.168.1.1',
-'DNS0' => '4.2.2.3',
-'CurrentGateway' => '192.168.1.1',
-'CurrentDNS1' => '0.0.0.0',
-'CameraName' => 'RovioCam',
-'CurrentIP' => '192.168.1.200',
-'Enable' => '1',
-'CurrentDNS2' => '0.0.0.0',
-'IP' => '192.168.1.200',
-'CurrentIPState' => 'STATIC_IP_OK'
+          'CurrentDNS0' => '4.2.2.3',
+          'DNS2' => '0.0.0.0',
+          'IPWay' => 'manually',
+          'CurrentNetmask' => '255.255.255.0',
+          'Netmask' => '255.255.255.0',
+          'DNS1' => '0.0.0.0',
+          'Gateway' => '192.168.1.1',
+          'DNS0' => '4.2.2.3',
+          'CurrentGateway' => '192.168.1.1',
+          'CurrentDNS1' => '0.0.0.0',
+          'CameraName' => 'RovioCam',
+          'CurrentIP' => '192.168.1.200',
+          'Enable' => '1',
+          'CurrentDNS2' => '0.0.0.0',
+          'IP' => '192.168.1.200',
+          'CurrentIPState' => 'STATIC_IP_OK'
 
 =back
 
@@ -1352,48 +1367,49 @@ GetLog Returns:
 
 =over 4
 
-'Time' => '0000001029',
-'LogLines' => [
-               '27    C0A8017D18F09FE518F00000000007'
-              ]
+          'Time' => '0000001029',
+          'LogLines' => [
+                         '27    C0A8017D18F09FE518F00000000007'
+                        ]
 
-=back
 
 The Time represents time since power on in seconds. LogLines are individual log events.
 
 Log Lines -
 
-byte 0, 1 - reason for recording this log, refer to table below. eg: 27 is shown that new client connect to the IP Camera.
-byte 2 ~ 5 - reserved.
-byte 6 ~ 13 - operator's IP. eg: 0A820B57 is 10.130.11.87.
-byte 14 ~ 25 - operator's MAC. eg: 0000E8E26A88 is 00:00:E8:E2:6A:88.
-byte 26 ~ 35 - time of this log.
+          byte 0, 1 - reason for recording this log, refer to table below. eg: 27 is shown that new client connect to the IP Camera.
+          byte 2 ~ 5 - reserved.
+          byte 6 ~ 13 - operator's IP. eg: 0A820B57 is 10.130.11.87.
+          byte 14 ~ 25 - operator's MAC. eg: 0000E8E26A88 is 00:00:E8:E2:6A:88.
+          byte 26 ~ 35 - time of this log.
 
-For byte 0, 1 - Log reason
-0 Information
-1 Error
-11 Set user
-12 Del user
-13 Set user check
-14 Open camera
-15 Close camera
-16 Change resolution
-17 Change quality
-18 Change brightness
-19 Change contrast
-20 Change saturation
-21 Change hue
-22 Change Sharpness
-23 Set email
-24 Set ftp server
-25 Dial (pppoe)
-26 Dial (modem)
-27 New client
-28 Set Motion Detect
-29 Set Monitor Area
-30 Set Server Time
-31 Set Server IP
-32 Set Http Port
+          For byte 0, 1 - Log reason
+          0 Information
+          1 Error
+          11 Set user
+          12 Del user
+          13 Set user check
+          14 Open camera
+          15 Close camera
+          16 Change resolution
+          17 Change quality
+          18 Change brightness
+          19 Change contrast
+          20 Change saturation
+          21 Change hue
+          22 Change Sharpness
+          23 Set email
+          24 Set ftp server
+          25 Dial (pppoe)
+          26 Dial (modem)
+          27 New client
+          28 Set Motion Detect
+          29 Set Monitor Area
+          30 Set Server Time
+          31 Set Server IP
+          32 Set Http Port
+
+=back
 
 =head2 $rovio->getlogo()
 
@@ -1403,10 +1419,10 @@ GetLogo Returns:
 
 =over 4
 
-'ShowString' => '',
-'ShowPos' => '0',
-'ShowString2' => '',
-'ShowPos2' => '0'
+          'ShowString' => '',
+          'ShowPos' => '0',
+          'ShowString2' => '',
+          'ShowPos2' => '0'
 
 =back
 
@@ -1418,16 +1434,16 @@ GetMail Returns:
 
 =over 4
 
-'Subject' => 'Rovio Snapshot',
-'User' => '',
-'MailServer' => '',
-'Port' => '25',
-'Sender' => '',
-'CheckFlag' => '0',
-'Enable' => '0',
-'Receiver' => '',
-'PassWord' => '',
-'Body' => 'Check out this photo from my Rovio.'
+          'Subject' => 'Rovio Snapshot',
+          'User' => '',
+          'MailServer' => '',
+          'Port' => '25',
+          'Sender' => '',
+          'CheckFlag' => '0',
+          'Enable' => '0',
+          'Receiver' => '',
+          'PassWord' => '',
+          'Body' => 'Check out this photo from my Rovio.'
 
 =back
 
@@ -1462,20 +1478,20 @@ GetMediaFormat Returns:
           'Video' => '1',
           'Audio' => '4'
 
+          The possible return values are:
+
+          For Audio:
+          0 - AMR
+          1 - PCM
+          2 - IMAADPCM
+          3 - ULAW
+          4 - ALAW
+
+          For Video:
+          1 - H263
+          2 - MPEG4
+
 =back
-
-The possible return values are:
-
-For Audio:
-=item 0 - AMR
-=item 1 - PCM
-=item 2 - IMAADPCM
-=item 3 - ULAW
-=item 4 - ALAW
-
-For Video:
-=item 1 - H263
-=item 2 - MPEG4
 
 The same values can be used with the setmediaformat() command.
 Note that some Video settings will not work with the built-in Rovio webpage
@@ -1651,7 +1667,7 @@ GetWlan Returns:
 
 Cancel current processing within the Rovio.
 
-=head2 $rovio->light
+=head2 $rovio->light()
 
 Controls the integrated light within the Rovio.
 
@@ -1664,6 +1680,26 @@ $rovio->light('off');
 
 =back
 
+=head2 $rovio->lights_blue()
+
+Controls the blue LED lights around the Rovio. This supports two methods of controlling the LEDs, shown below:
+
+Sample:
+
+=over 4
+
+          $rovio->lights_blue('on');        # Turn on all LEDs
+          $rovio->lights_blue('off');       # Turn off all LEDs
+          $rovio->lights_blue("00100000");  # Turn on right front LED
+          $rovio->lights_blue("00010000");  # Turn on right mid LED
+          $rovio->lights_blue("00001000");  # Turn on right back LED
+          $rovio->lights_blue("00000100");  # Turn on left back LED
+          $rovio->lights_blue("00000010");  # Turn on left mid LED
+          $rovio->lights_blue("00000001");  # Turn on left front LED
+          $rovio->lights_blue("00100001");  # Turn on two front LEDs (etc)
+
+=back
+
 =head2 $rovio->manualdrive(<drive value>,<speed value>)
 
 Allows manual control of the Rovio movement.
@@ -1672,33 +1708,33 @@ Sample:
 
 =over 4
 
-$rovio->manualdrive("1","2");
+          $rovio->manualdrive("1","2");
+
+          Drive Values:
+          0 (Stop)
+          1 (Forward)
+          2 (Backward)
+          3 (Straight left)
+          4 (Straight right)
+          5 (Rotate left by speed)
+          6 (Rotate right by speed)
+          7 (Diagonal forward left)
+          8 (Diagonal forward right)
+          9 (Diagonal backward left)
+          10 (Diagonal backward right)
+          11 (Head up)
+          12 (Head down)
+          13 (Head middle)
+          14 (Reserved)
+          15 (Reserved)
+          16 (Reserved)
+          17 (Rotate left by 20 degree angle increments)
+          18 (Rotate right by 20 degree angle increments)
+
+          Speed Values:
+          1 (fastest) - 10 (slowest)
 
 =back
-
-Drive Values:
-0 (Stop)
-1 (Forward)
-2 (Backward)
-3 (Straight left)
-4 (Straight right)
-5 (Rotate left by speed)
-6 (Rotate right by speed)
-7 (Diagonal forward left)
-8 (Diagonal forward right)
-9 (Diagonal backward left)
-10 (Diagonal backward right)
-11 (Head up)
-12 (Head down)
-13 (Head middle)
-14 (Reserved)
-15 (Reserved)
-16 (Reserved)
-17 (Rotate left by 20 degree angle increments)
-18 (Rotate right by 20 degree angle increments)
-
-Speed Values:
-1 (fastest) - 10 (slowest)
 
 =head2 $rovio->pauseplaying()
 
@@ -1752,11 +1788,11 @@ Sample:
 
 =over 4
 
-@params = {   "Forward" => 8,
-            "DriveTurn" => 6,
-           "HomingTurn" => 8
-           };
-$rovio->settuningparameters(@params);
+          @params = {   "Forward" => 8,
+                      "DriveTurn" => 6,
+                     "HomingTurn" => 8
+                     };
+          $rovio->settuningparameters(@params);
 
 =back
 
@@ -1772,11 +1808,11 @@ State Returns:
 
 =over 4
 
-=item idle
-=item driving home
-=item docking
-=item executing path
-=item recording path
+          idle
+          driving home
+          docking
+          executing path
+          recording path
 
 =back
 
